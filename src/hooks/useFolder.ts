@@ -65,44 +65,7 @@ export function useFolder(folderId = null, folder = null) {
     }
   }, [currentUser, folderId]);
 
-  useEffect(() => {
-    dispatch({ type: ACTIONS.SELECT_FOLDER, payload: { folderId, folder } });
-  }, [folderId, folder]);
-
-  useEffect(() => {
-    if (folderId == null) {
-      return dispatch({
-        type: ACTIONS.UPDATE_FOLDER,
-        payload: { folder: ROOT_FOLDER }
-      });
-    }
-
-    async function fetchFolder() {
-      try {
-        const { data, error } = await supabase
-          .from('folders')
-          .select()
-          .eq('id', folderId)
-          .single();
-
-        if (error) throw error;
-
-        dispatch({
-          type: ACTIONS.UPDATE_FOLDER,
-          payload: { folder: data }
-        });
-      } catch (error) {
-        console.error("Error fetching folder:", error);
-        dispatch({
-          type: ACTIONS.UPDATE_FOLDER,
-          payload: { folder: ROOT_FOLDER }
-        });
-      }
-    }
-
-    fetchFolder();
-  }, [folderId]);
-
+  // Initial fetch
   useEffect(() => {
     refreshFiles();
   }, [refreshFiles]);

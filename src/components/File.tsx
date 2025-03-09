@@ -61,26 +61,23 @@ const File: React.FC<FileProps> = ({ name, url, id, folderId, path, onDelete }) 
 		try {
 			setLoading(true);
 
-			// Construct storage path using the path prop
-			const storagePath = path && path.length > 0
-				? `${currentUser.id}/${path.join("/")}/${name}`
-				: `${currentUser.id}/${name}`;
+			const userId = currentUser.id;
+			const fileName = name;
+			const storagePath = `${userId}/${fileName}`;
 			
 			console.log('Attempting to delete:', storagePath);
 
-			// Delete from storage first
+			// 1. Delete from storage first
 			const { data, error: storageError } = await supabase.storage
 				.from('files')
 				.remove([storagePath]);
-
-			console.log('Storage delete response:', data, storageError);
 
 			if (storageError) {
 				console.error('Storage deletion error:', storageError);
 				throw storageError;
 			}
 
-			// Then delete from database
+			// 2. Delete from database
 			const { error: dbError } = await supabase
 				.from('files')
 				.delete()
@@ -91,8 +88,10 @@ const File: React.FC<FileProps> = ({ name, url, id, folderId, path, onDelete }) 
 				throw dbError;
 			}
 
-			// Call onDelete callback to update UI
-			onDelete?.();
+			// 3. Force UI update
+			if (onDelete) {
+				onDelete();
+			}
 
 		} catch (error) {
 			console.error('Delete error:', error);

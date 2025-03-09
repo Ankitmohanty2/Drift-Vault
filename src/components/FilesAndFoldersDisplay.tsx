@@ -7,8 +7,9 @@ import File from "./File";
 
 // CUSTOM HOOKS
 import { useFolder } from "@/hooks/useFolder";
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
+import { useAuth } from "@/contexts/AuthContext";
 
 // TS INTERFACES
 interface Props {
@@ -16,10 +17,18 @@ interface Props {
 }
 
 const FilesAndFoldersDisplay: React.FC<Props> = ({ folderId }) => {
+	const { currentUser } = useAuth();
 	const { folder, childFolders, childFiles, refreshFiles } = useFolder(folderId);
 
-	// Subscribe to real-time changes
+	const handleFileDelete = useCallback(() => {
+		if (refreshFiles) {
+			refreshFiles();
+		}
+	}, [refreshFiles]);
+
 	useEffect(() => {
+		if (!refreshFiles) return;
+
 		const filesChannel = supabase
 			.channel('files-channel')
 			.on(
@@ -30,7 +39,7 @@ const FilesAndFoldersDisplay: React.FC<Props> = ({ folderId }) => {
 					table: 'files',
 				},
 				() => {
-					refreshFiles();
+					handleFileDelete();
 				}
 			)
 			.subscribe();
@@ -38,11 +47,7 @@ const FilesAndFoldersDisplay: React.FC<Props> = ({ folderId }) => {
 		return () => {
 			supabase.removeChannel(filesChannel);
 		};
-	}, [refreshFiles]);
-
-	const handleFileDelete = () => {
-		refreshFiles();
-	};
+	}, [refreshFiles, handleFileDelete]);
 
 	return (
 		<div className="py-6">
@@ -79,7 +84,7 @@ const FilesAndFoldersDisplay: React.FC<Props> = ({ folderId }) => {
 								url={childFile.url}
 								folderId={childFile.folder_id}
 								path={folder?.path ? [...folder.path, folder.name] : []}
-								onDelete={refreshFiles}
+								onDelete={handleFileDelete}
 							/>
 						))}
 					</div>

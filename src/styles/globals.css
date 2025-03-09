@@ -1,0 +1,140 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.bg-grid-slate-800 {
+  background-image: linear-gradient(currentColor 1px, transparent 1px),
+    linear-gradient(to right, currentColor 1px, transparent 1px);
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Button styles */
+.btn {
+  @apply transition-all duration-200 transform hover:-translate-y-0.5;
+}
+
+.btn-circle {
+  @apply hover:scale-105;
+}
+
+/* Modal styles */
+.modal-box {
+  @apply shadow-xl border p-6;
+}
+
+.dark .modal-box {
+  @apply bg-neutral border-neutral-focus;
+}
+
+/* Input styles */
+.input {
+  @apply bg-base-100 border-base-300;
+}
+
+.dark .input {
+  @apply bg-neutral border-neutral-focus;
+}
+
+/* Tooltip styles */
+.tooltip:before {
+  @apply bg-neutral text-neutral-content;
+}
+
+/* Button hover effects */
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn:hover {
+  @apply shadow-lg;
+}
+
+.btn-primary:hover {
+  @apply shadow-lg bg-opacity-90;
+  box-shadow: 0 8px 16px -1px rgb(var(--primary) / 0.2);
+}
+
+.btn-secondary:hover {
+  @apply shadow-lg bg-opacity-90;
+  box-shadow: 0 8px 16px -1px rgb(var(--secondary) / 0.2);
+}
+
+.btn-accent:hover {
+  @apply shadow-lg bg-opacity-90;
+  box-shadow: 0 8px 16px -1px rgb(var(--accent) / 0.2);
+}
+
+/* Card animations */
+.card {
+  @apply transition-all duration-300;
+}
+
+.card:hover {
+  @apply -translate-y-1 shadow-xl;
+}
+
+/* Dark mode overrides */
+.dark {
+  @apply text-base-content;
+}
+
+.dark .bg-base-100 {
+  @apply bg-neutral;
+}
+
+.dark .hover\:bg-base-200:hover {
+  @apply bg-neutral-focus;
+}
+
+.btn-circle.btn-sm {
+  @apply h-10 w-10 min-h-0;
+}
+
+.tooltip-bottom:before {
+  transform: translateX(-50%) translateY(4px);
+}
+
+.progress-bar {
+  transition: width 0.3s ease-in-out;
+}
+
+.upload-progress {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

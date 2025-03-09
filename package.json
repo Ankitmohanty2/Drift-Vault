@@ -1,0 +1,31 @@
+{
+	"name": "v-drive",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"dev": "SET NODE_OPTIONS=--openssl-legacy-provider && next dev",
+		"build": "SET NODE_OPTIONS=--openssl-legacy-provider && next build",
+		"start": "SET NODE_OPTIONS=--openssl-legacy-provider && next start",
+		"lint": "next lint"
+	},
+	"dependencies": {
+		"@supabase/supabase-js": "^2.49.1",
+		"daisyui": "^1.14.0",
+		"firebase": "^9.0.2",
+		"next": "11.1.2",
+		"next-themes": "^0.2.1",
+		"react": "17.0.2",
+		"react-dom": "17.0.2",
+		"uuid": "^8.3.2"
+	},
+	"devDependencies": {
+		"@types/react": "^17.0.21",
+		"autoprefixer": "^10.3.4",
+		"babel-plugin-inline-react-svg": "^2.0.1",
+		"eslint": "7.32.0",
+		"eslint-config-next": "11.1.2",
+		"postcss": "^8.3.6",
+		"tailwindcss": "^2.2.15",
+		"typescript": "^4.4.3"
+	}
+}

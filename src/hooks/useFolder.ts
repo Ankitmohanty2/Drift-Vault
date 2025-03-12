@@ -10,6 +10,8 @@ export interface IFolder {
   path: string[];
 }
 
+
+
 const ACTIONS = {
   SELECT_FOLDER: "select-folder",
   UPDATE_FOLDER: "update-folder",

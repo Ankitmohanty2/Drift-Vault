@@ -17,8 +17,8 @@ interface Props {
 }
 
 const FilesAndFoldersDisplay: React.FC<Props> = ({ folderId }) => {
-	const { currentUser } = useAuth();
 	const { folder, childFolders, childFiles, refreshFiles } = useFolder(folderId);
+	const { currentUser } = useAuth();
 
 	const handleFileDelete = useCallback(() => {
 		console.log('Refreshing files after deletion');
@@ -37,19 +37,14 @@ const FilesAndFoldersDisplay: React.FC<Props> = ({ folderId }) => {
 					schema: 'public',
 					table: 'files',
 				},
-				() => {
-					handleFileDelete();
-				}
+				handleFileDelete
 			)
 			.subscribe();
-
-		// Initial load
-		refreshFiles();
 
 		return () => {
 			supabase.removeChannel(filesChannel);
 		};
-	}, [refreshFiles, handleFileDelete, currentUser?.id]);
+	}, [refreshFiles, handleFileDelete]);
 
 	return (
 		<div className="py-6">

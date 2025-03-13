@@ -21,9 +21,8 @@ const FilesAndFoldersDisplay: React.FC<Props> = ({ folderId }) => {
 	const { folder, childFolders, childFiles, refreshFiles } = useFolder(folderId);
 
 	const handleFileDelete = useCallback(() => {
-		if (refreshFiles) {
-			refreshFiles();
-		}
+		console.log('Refreshing files after deletion');
+		refreshFiles();
 	}, [refreshFiles]);
 
 	useEffect(() => {
@@ -44,10 +43,13 @@ const FilesAndFoldersDisplay: React.FC<Props> = ({ folderId }) => {
 			)
 			.subscribe();
 
+		// Initial load
+		refreshFiles();
+
 		return () => {
 			supabase.removeChannel(filesChannel);
 		};
-	}, [refreshFiles, handleFileDelete]);
+	}, [refreshFiles, handleFileDelete, currentUser?.id]);
 
 	return (
 		<div className="py-6">

@@ -34,14 +34,9 @@ export function useFolder(folderId = null, folder = null) {
 			const { data: files, error: filesError } = await supabase
 				.from('files')
 				.select('*')
+				.eq('folder_id', folderId || null)
 				.eq('user_id', currentUser.id)
 				.order('name');
-
-			if (folderId === null) {
-				files = files.filter(file => file.folder_id === null);
-			} else {
-				files = files.filter(file => file.folder_id === folderId);
-			}
 
 			if (filesError) throw filesError;
 
@@ -72,8 +67,9 @@ export function useFolder(folderId = null, folder = null) {
 
 	// Initial fetch
 	useEffect(() => {
+		dispatch({ type: ACTIONS.SELECT_FOLDER, payload: { folderId, folder } });
 		refreshFiles();
-	}, [refreshFiles]);
+	}, [folderId, folder, refreshFiles]);
 
 	return { ...state, refreshFiles };
 }

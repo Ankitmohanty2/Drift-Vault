@@ -1,6 +1,6 @@
 import { useReducer, useEffect, useCallback } from "react";
-import { useAuth } from "@/contexts/AuthContext";
-import { supabase } from "@/lib/supabase";
+import { useAuth } from "../contexts/AuthContext";
+import { supabase } from "../lib/supabase";
 
 export const ROOT_FOLDER = { name: "Root", id: null, path: [] };
 
